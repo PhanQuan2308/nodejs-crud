@@ -1,11 +1,12 @@
 const express = require('express');
 const admin = require('firebase-admin');
 require('dotenv').config(); // Nạp biến môi trường từ file .env
+const findFreePort = require('find-free-port'); // Import thư viện tìm cổng trống
 
 const app = express();
 app.use(express.json()); // Để đọc dữ liệu JSON từ request body
 
-//Khởi tạo mội trường SDK của Firebase
+// Khởi tạo môi trường SDK của Firebase
 admin.initializeApp({
   credential: admin.credential.cert({
     private_key: process.env.FIREBASE_PRIVETE_KEYS.replace(/\\n/g, '\n'), // Xử lý ký tự xuống dòng
@@ -75,8 +76,15 @@ app.delete('/products/:id', async (req, res) => {
   }
 });
 
-// Chạy server với port online hoặc 3000 local
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// Kiểm tra và sử dụng cổng trống
+findFreePort(3000, (err, freePort) => {
+  if (err) {
+    console.error('Error finding free port:', err);
+    return;
+  }
+
+  const PORT = process.env.PORT || freePort;
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
 });
