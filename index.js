@@ -3,14 +3,15 @@ const mongoose = require('mongoose');
 const Item = require('./models/Item');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+const mongoURL = process.env.DATABASE_URL || 'mongodb://localhost:27017/ecommerce_db';
 
-mongoose.connect('mongodb://localhost:27017/ecommerce_db')
+mongoose.connect(mongoURL)
     .then(() => {
-        console.log('connected to mongoDb');
+        console.log('Connected to MongoDB');
     })
     .catch(err => {
-        console.error('failed to connect to MongoDB', err);
+        console.error('Failed to connect to MongoDB', err);
     });
 
 // Middleware xử lý JSON
@@ -80,5 +81,5 @@ app.delete('/items/:id', async (req, res) => {
 
 // Cấu hình server
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server is running on port ${port}`);
 });
