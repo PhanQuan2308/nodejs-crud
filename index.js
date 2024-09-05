@@ -8,7 +8,7 @@ app.use(express.json()); // Để đọc dữ liệu JSON từ request body
 //Khởi tạo mội trường SDK của Firebase
 admin.initializeApp({
   credential: admin.credential.cert({
-    private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'), // Xử lý ký tự xuống dòng
+    private_key: process.env.FIREBASE_PRIVETE_KEYS.replace(/\\n/g, '\n'), // Xử lý ký tự xuống dòng
     client_email: process.env.FIREBASE_CLIENT_EMAIL,
     project_id: process.env.FIREBASE_PROJECT_ID,
   }),
