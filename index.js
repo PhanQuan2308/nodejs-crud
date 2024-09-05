@@ -5,16 +5,15 @@ const Item = require('./models/Item');
 const app = express();
 const port = 3000;
 
-// Kết nối MongoDB
 mongoose.connect('mongodb://localhost:27017/ecommerce_db')
     .then(() => {
-        console.log('connected to MongoDB');
+        console.log('connected to mongoDb');
     })
     .catch(err => {
         console.error('failed to connect to MongoDB', err);
     });
 
-// Parse JSON -> Dùng middleware express.json()
+// Middleware xử lý JSON
 app.use(express.json());
 
 // 1. API lấy tất cả items
@@ -47,6 +46,9 @@ app.put('/items/:id', async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
+});
+app.get('/', (req, res) => {
+    res.send('Welcome to Node.js CRUD API!');
 });
 
 // 4. API thêm item mới
