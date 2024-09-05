@@ -52,6 +52,7 @@ app.get('/', (req, res) => {
     res.send('Welcome to Node.js CRUD API!');
 });
 
+
 // 4. API thêm item mới
 app.post('/items', async (req, res) => {
     const item = new Item({
